@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="com.company.demo.web.valueds.ValueDsDemo"
+        messagesPack="com.company.demo.web.valueds"
+        xmlns:chart="http://schemas.haulmont.com/charts/charts.xsd">
+    <dsContext>
+        <valueCollectionDatasource id="salesDs">
+            <query>
+                <![CDATA[select o.customer, sum(o.amount)
+from demo$Order o
+group by o.customer]]>
+            </query>
+            <properties>
+                <property class="com.company.demo.entity.Customer"
+                          name="customer"/>
+                <property datatype="decimal"
+                          name="sum"/>
+            </properties>
+        </valueCollectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <split height="100%"
+               orientation="horizontal"
+               width="100%">
+            <table height="100%"
+                   width="100%">
+                <columns>
+                    <column id="customer"/>
+                    <column id="sum"/>
+                </columns>
+                <rows datasource="salesDs"/>
+                <buttonsPanel>
+                    <button caption="Refresh"
+                            invoke="refresh"/>
+                </buttonsPanel>
+            </table>
+            <chart:pieChart datasource="salesDs"
+                            height="100%"
+                            titleField="customer"
+                            valueField="sum"
+                            width="100%">
+                <chart:legend autoMargins="false"
+                              marginRight="80"
+                              markerType="CIRCLE"
+                              position="BOTTOM"/>
+            </chart:pieChart>
+        </split>
+    </layout>
+</window>
